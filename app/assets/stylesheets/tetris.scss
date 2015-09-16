@@ -1,0 +1,41 @@
+// Place all the styles related to the Tetris controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.board{
+  width: 120px;
+  /*border: 1px solid black;*/
+  overflow: hidden;
+
+  .cell{
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 1px;
+    border: 1px solid black;
+  }
+
+  .focus{
+    box-shadow: 0 0 10px black;
+  }
+}
+
+.score{
+  width: 120px;
+  height: 45px;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0;
+  font-size: 38px;
+}
+
+h1{
+  font-size: 20px;
+  font-family: arial;
+}
+
+button{
+  width: 120px;
+  margin: 5px 0;
+}
