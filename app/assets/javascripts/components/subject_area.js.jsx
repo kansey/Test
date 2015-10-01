@@ -3,14 +3,20 @@ var SubjectArea = React.createClass({
   getInitialState: function(){
     $(document).disableSelection();
     return {
+      height: this.props.data.location.height,
+      width: this.props.data.location.width,
+      left: this.props.data.location.left,
+      top: this.props.data.location.top,
+      subjects: this.props.data.subjects,
       name: this.props.data.name,
-      location: this.props.data.location,
-      subjects: this.props.data.subjects
+      clickX: 0,
+      clickY: 0
     }
   },
 
   handleTrigger: function(event){
     var _this = this;
+    event.stopPropagation();
     switch($(event.target).attr('class')){
       case 'bottom':
         document.addEventListener('mousemove', this.onMouseUpdateBottom);
@@ -28,44 +34,46 @@ var SubjectArea = React.createClass({
   },
 
   onMouseUpdateBottom: function(event){
-    this.setState({
-      location: {
-        width: this.state.location.left,
-        height: event.pageY - this.state.location.top,
-        top: this.state.location.top,
-        left: this.state.location.left,
-      }
-    });
-  },
-
-  onMouseUpdateBoth: function(event){
-    this.setState({
-      location: {
-        width: event.pageX - this.state.location.left,
-        height: event.pageY - this.state.location.top,
-        top: this.state.location.top,
-        left: this.state.location.left,
-      }
-    });
+    this.setState({height: event.pageY - this.state.top});
   },
 
   onMouseUpdateRight: function(event){
-    console.log(this.state.location.width);
-    this.setState({
-      location: {
-        width: event.pageX - this.state.location.left,
-        height: this.state.location.height,
-        top: this.state.location.top,
-        left: this.state.location.left,
-      }
-    });
+    this.setState({width: event.pageX - this.state.left});
+    console.log(this.state.left, this.state.width);
+  },
+
+  onMouseUpdateBoth: function(event){
+    this.setState({width: event.pageX - this.state.left});
+    this.setState({height: event.pageY - this.state.top});
   },
 
   cursorPosition: function(){
     document.removeEventListener('mousemove', this.onMouseUpdateRight);
     document.removeEventListener('mousemove', this.onMouseUpdateBottom);
     document.removeEventListener('mousemove', this.onMouseUpdateBoth);
+
+    document.removeEventListener('mousemove', this.onMouseUpdateMove);
     $(document).unbind('mouseup');
+  },
+
+  handleSize: function(event){
+    _this = this;
+
+    this.state.clickX = event.pageX - _this.state.left;
+    this.state.clickY = event.pageY - _this.state.top;
+
+    console.log(this.state);
+    document.addEventListener('mousemove', this.onMouseUpdateMove);
+    $(document).on('mouseup', function(){
+      _this.cursorPosition();
+    });
+  },
+
+  onMouseUpdateMove: function(event){
+    var i = event.pageY - this.state.clickY;
+    var j = event.pageX - this.state.clickX;
+    this.setState({top: i});
+    this.setState({left: j});
   },
 
   render: function() {
@@ -76,28 +84,28 @@ var SubjectArea = React.createClass({
     });
 
     var style = {
-      width: this.state.location.width,
-      height: this.state.location.height,
-      marginLeft: this.state.location.left,
-      marginTop: this.state.location.top,
+      width: this.state.width,
+      height: this.state.height,
+      marginLeft: this.state.left,
+      marginTop: this.state.top,
     };
 
     var styleForRightTrigger = {
-      height: this.state.location.height,
+      height: this.state.height,
       position: 'absolute',
       width: '3px',
       right: 0
     };
 
     var styleForBottomTrigger = {
-      width: this.state.location.width,
+      width: this.state.width,
       position: 'absolute',
       height: '3px',
       bottom: 0
     };
 
     return (
-      <div className = 'subjectArea' style = {style}>
+      <div className = 'subjectArea' style = {style} onMouseDown = {this.handleSize}>
         <div className = 'right' style = {styleForRightTrigger} onMouseDown = {this.handleTrigger}></div>
         <h1 className = 'name'>{this.state.name}</h1>
         {someStuff}
