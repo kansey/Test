@@ -17,6 +17,7 @@ var SubjectArea = React.createClass({
   handleTrigger: function(event){
     var _this = this;
     event.stopPropagation();
+    $(event.target).css('z-index',3);
     switch($(event.target).attr('class')){
       case 'bottom':
         document.addEventListener('mousemove', this.onMouseUpdateBottom);
@@ -59,10 +60,9 @@ var SubjectArea = React.createClass({
   handleSize: function(event){
     _this = this;
 
-    this.state.clickX = event.pageX - _this.state.left;
-    this.state.clickY = event.pageY - _this.state.top;
+    this.state.clickX = event.pageX - this.state.left;
+    this.state.clickY = event.pageY - this.state.top;
 
-    console.log(this.state);
     document.addEventListener('mousemove', this.onMouseUpdateMove);
     $(document).on('mouseup', function(){
       _this.cursorPosition();
@@ -70,10 +70,8 @@ var SubjectArea = React.createClass({
   },
 
   onMouseUpdateMove: function(event){
-    var i = event.pageY - this.state.clickY;
-    var j = event.pageX - this.state.clickX;
-    this.setState({top: i});
-    this.setState({left: j});
+    this.setState({top: event.pageY - this.state.clickY});
+    this.setState({left: event.pageX - this.state.clickX});
   },
 
   render: function() {
@@ -94,20 +92,21 @@ var SubjectArea = React.createClass({
       height: this.state.height,
       position: 'absolute',
       width: '3px',
-      right: 0
+      right: -1
     };
 
     var styleForBottomTrigger = {
       width: this.state.width,
       position: 'absolute',
       height: '3px',
-      bottom: 0
+      bottom: -1
     };
 
     return (
       <div className = 'subjectArea' style = {style} onMouseDown = {this.handleSize}>
         <div className = 'right' style = {styleForRightTrigger} onMouseDown = {this.handleTrigger}></div>
-        <h1 className = 'name'>{this.state.name}</h1>
+        <h1>{this.state.name}</h1><span className = 'nameDecor'></span>
+
         {someStuff}
         <div className = 'bottom' style = {styleForBottomTrigger} onMouseDown = {this.handleTrigger}></div>
         <div className = 'both' onMouseDown = {this.handleTrigger}></div>

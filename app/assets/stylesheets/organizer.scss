@@ -12,12 +12,13 @@ html{
 }
 
 .subjectArea{
-  //min-height: 100px;
+  min-height: 100px;
   min-width: 250px;
   border-radius: 1px 5px 5px 5px;
-  background-color: rgba(255, 0, 0, 0.5);
+  background-color: white;
   position: absolute;
   margin: 0;
+  border: 1px solid grey;
 
   .right:hover{
     cursor: ew-resize;
@@ -27,12 +28,27 @@ html{
     cursor: ns-resize;
   }
 
+  .bgName{
+    border-top: 20px solid green;
+	  border-right: 30px solid transparent;
+    width: auto;
+    position: absolute;
+    top:0;
+  }
+
+  h1{
+    border:1px solid black;
+    margin: 0;
+    background-color: green;
+  }
+
   .both{
     position: absolute;
     height: 5px;
     width: 5px;
     bottom: 0;
     right: 0;
+    background-color: black;
     cursor: nwse-resize;
   }
 }

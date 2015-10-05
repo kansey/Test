@@ -1,45 +1,19 @@
 var Global = React.createClass({
-/*
+
   getInitialState: function(){
-    return {subjectAreas: [], sub: this.props.data};
+    return {data: this.props.data};
   },
 
-  handleSettings: function() {
-
+  changer: function(name, fromTo){
     _this = this;
-
-    $('.subjectArea').draggable({
-      create: function(event,ui) {
-        _this.getSubjectAreaObjects(event);
-      },
-      drag:  function(event,ui){},
-      stop: function(event,ui){
-        _this.getSubjectAreaObjects(event);
-      },
-    }).css('position','absolute');
-
-    $('.subject').draggable({
-      start: function(event,ui){},
-      drag:  function(event,ui){
-        _this.getLocation(event);
-      },
-      stop:  function(event,ui){
-        $('.subjectArea').css('box-shadow','none');
+    for(var i = 0; i < this.state.data[fromTo.from].subjects.length; i++){
+      if (_this.state.data[fromTo.from].subjects[i] === name){
+        _this.state.data[fromTo.to].subjects.push(_this.state.data[fromTo.from].subjects[i]);
+        _this.state.data[fromTo.from].subjects.splice(i,1);
       }
-    }).css('position','absolute');
-
-    $('.subjectArea').resizable({
-      create: function(event,ui) {
-        _this.getSubjectAreaObjects(event);
-      },
-      stop: function(event,ui){
-        _this.getSubjectAreaObjects(event);
-      },
-    });
-
-    $('.subject').resizable();
+    }
   },
-
+/*
   getSubjectAreaObjects: function(obj) {
     var _this = this;
 
@@ -85,7 +59,6 @@ var Global = React.createClass({
     return (
       <div>
         {someStuff}
-        <button onClick = {this.handleTest}>edit</button>
       </div>
     );
   }
