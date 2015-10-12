@@ -8,71 +8,11 @@ var SubjectArea = React.createClass({
       left: this.props.data.location.left,
       top: this.props.data.location.top,
       subjects: this.props.data.subjects,
-      name: this.props.data.name,
-      clickX: 0,
-      clickY: 0
+      name: this.props.data.name
     }
   },
 
-  handleTrigger: function(event){
-    var _this = this;
-    event.stopPropagation();
-    $(event.target).css('z-index',3);
-    switch($(event.target).attr('class')){
-      case 'bottom':
-        document.addEventListener('mousemove', this.onMouseUpdateBottom);
-        break;
-      case 'right':
-        document.addEventListener('mousemove', this.onMouseUpdateRight);
-        break;
-      case 'both':
-        document.addEventListener('mousemove', this.onMouseUpdateBoth);
-        break;
-    };
-    $(document).on('mouseup', function(){
-      _this.cursorPosition();
-    });
-  },
-
-  onMouseUpdateBottom: function(event){
-    this.setState({height: event.pageY - this.state.top});
-  },
-
-  onMouseUpdateRight: function(event){
-    this.setState({width: event.pageX - this.state.left});
-    console.log(this.state.left, this.state.width);
-  },
-
-  onMouseUpdateBoth: function(event){
-    this.setState({width: event.pageX - this.state.left});
-    this.setState({height: event.pageY - this.state.top});
-  },
-
-  cursorPosition: function(){
-    document.removeEventListener('mousemove', this.onMouseUpdateRight);
-    document.removeEventListener('mousemove', this.onMouseUpdateBottom);
-    document.removeEventListener('mousemove', this.onMouseUpdateBoth);
-
-    document.removeEventListener('mousemove', this.onMouseUpdateMove);
-    $(document).unbind('mouseup');
-  },
-
-  handleSize: function(event){
-    _this = this;
-
-    this.state.clickX = event.pageX - this.state.left;
-    this.state.clickY = event.pageY - this.state.top;
-
-    document.addEventListener('mousemove', this.onMouseUpdateMove);
-    $(document).on('mouseup', function(){
-      _this.cursorPosition();
-    });
-  },
-
-  onMouseUpdateMove: function(event){
-    this.setState({top: event.pageY - this.state.clickY});
-    this.setState({left: event.pageX - this.state.clickX});
-  },
+  mixins: [Edit],
 
   render: function() {
     var someStuff = this.props.data.subjects.map(function(item){
@@ -85,31 +25,43 @@ var SubjectArea = React.createClass({
       width: this.state.width,
       height: this.state.height,
       marginLeft: this.state.left,
-      marginTop: this.state.top,
+      marginTop: this.state.top
+      //overflowY: 'auto',
+      //overflowX: 'hidden'
     };
 
-    var styleForRightTrigger = {
+    var rightRunner = {
       height: this.state.height,
       position: 'absolute',
-      width: '3px',
-      right: -1
+      width: 3,
+      right: -1,
+      cursor: 'ew-resize'
     };
 
-    var styleForBottomTrigger = {
+    var bottomRunner = {
       width: this.state.width,
       position: 'absolute',
-      height: '3px',
-      bottom: -1
+      height: 3,
+      bottom: -1,
+      cursor: 'ns-resize'
+    };
+
+    var bothRunners = {
+      position: 'absolute',
+      height: 5,
+      width: 5,
+      bottom: 0,
+      right: 0,
+      cursor: 'nwse-resize'
     };
 
     return (
-      <div className = 'subjectArea' style = {style} onMouseDown = {this.handleSize}>
-        <div className = 'right' style = {styleForRightTrigger} onMouseDown = {this.handleTrigger}></div>
-        <h1>{this.state.name}</h1><span className = 'nameDecor'></span>
-
+      <div className = 'subjectArea' style = {style} onMouseDown = {this.handlePosition}>
+        <div className = 'right' style = {rightRunner} onMouseDown = {this.handleWidth}></div>
+        <h1>{this.state.name}</h1>
         {someStuff}
-        <div className = 'bottom' style = {styleForBottomTrigger} onMouseDown = {this.handleTrigger}></div>
-        <div className = 'both' onMouseDown = {this.handleTrigger}></div>
+        <div className = 'bottom' style = {bottomRunner} onMouseDown = {this.handleHeight}></div>
+        <div className = 'both' style = {bothRunners} onMouseDown = {this.handleSize}></div>
       </div>
     );
   }

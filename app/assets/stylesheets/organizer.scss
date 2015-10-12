@@ -14,48 +14,21 @@ html{
 .subjectArea{
   min-height: 100px;
   min-width: 250px;
-  border-radius: 1px 5px 5px 5px;
   background-color: white;
   position: absolute;
   margin: 0;
-  border: 1px solid grey;
-
-  .right:hover{
-    cursor: ew-resize;
-  }
-
-  .bottom:hover{
-    cursor: ns-resize;
-  }
-
-  .bgName{
-    border-top: 20px solid green;
-	  border-right: 30px solid transparent;
-    width: auto;
-    position: absolute;
-    top:0;
-  }
 
   h1{
-    border:1px solid black;
     margin: 0;
-    background-color: green;
+    background-color: grey;
+    display: block;
+    width: 100px;
+    border-radius: 0 0 5px 0;
   }
 
-  .both{
-    position: absolute;
-    height: 5px;
-    width: 5px;
-    bottom: 0;
-    right: 0;
-    background-color: black;
-    cursor: nwse-resize;
+  .subject{
+    background-color: grey;
+    font-family: 'Arial';
+    position: inherit;
   }
-}
-
-.subject{
-  //min-height: 50px;
-  //min-width: 100px;
-  background-color: rgba(0, 255, 0, 0.5);
-  border-radius: 1px 1px 5px 1px;
 }
