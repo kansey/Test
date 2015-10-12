@@ -34,16 +34,29 @@ var Edit = {
   },
 
   changeWidth: function(event){
-    this.setState({width: event.pageX - this.state.left});
+    if (this.props.parent){
+      this.setState({width: event.pageX - this.state.left - this.props.parent.left});
+    }else{
+      this.setState({width: event.pageX - this.state.left});
+    }
   },
 
   changeHeight: function(event){
-    this.setState({height: event.pageY - this.state.top});
+    if (this.props.parent){
+      this.setState({height: event.pageY - this.state.top - this.props.parent.top});
+    }else{
+      this.setState({height: event.pageY - this.state.top});
+    }
   },
 
   changeSize: function(event){
-    this.setState({width:  event.pageX - this.state.left});
-    this.setState({height: event.pageY - this.state.top});
+    if (this.props.parent){
+      this.setState({width: event.pageX - this.state.left - this.props.parent.left});
+      this.setState({height: event.pageY - this.state.top - this.props.parent.top});
+    }else{
+      this.setState({height: event.pageY - this.state.top});
+      this.setState({width: event.pageX - this.state.left});
+    }
   },
 
   bindCancelListeners: function(){

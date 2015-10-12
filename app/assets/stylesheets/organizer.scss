@@ -2,34 +2,37 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 body{
-  background-image: url('bg.jpg');
   padding: 0;
   margin: 0;
   background-color: blue;
 }
 
-html{
-  padding: 0;
-}
-
 .subjectArea{
   min-height: 100px;
   min-width: 250px;
-  background-color: white;
   position: absolute;
   margin: 0;
+  outline: 1px solid white;
 
   h1{
     margin: 0;
     background-color: grey;
     display: block;
     width: 100px;
+    position: absolute;
     border-radius: 0 0 5px 0;
   }
 
   .subject{
-    background-color: grey;
+    outline: 1px solid white;
     font-family: 'Arial';
-    position: inherit;
+    position: absolute;
+    h3{
+      margin: 0;
+      background-color: grey;
+      display: block;
+      width: 100px;
+      border-radius: 0 0 5px 0;
+    }
   }
 }

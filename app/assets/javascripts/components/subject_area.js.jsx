@@ -15,9 +15,10 @@ var SubjectArea = React.createClass({
   mixins: [Edit],
 
   render: function() {
+    var _this = this;
     var someStuff = this.props.data.subjects.map(function(item){
       return (
-        <Subject data = {item} />
+        <Subject data = {item} parent = {_this.state}/>
       );
     });
 
