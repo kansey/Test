@@ -4,34 +4,55 @@
 body{
   padding: 0;
   margin: 0;
-  background-color: blue;
+  background-color: white;
+  background-image: url('bg.png');
 }
+
+button{position:absolute}
 
 .subjectArea{
   min-height: 100px;
   min-width: 250px;
   position: absolute;
   margin: 0;
-  outline: 1px solid white;
+  outline: 1px solid #e2e2e2;
+
+  .inTheCornerRunner{
+    width: 10px;
+    height: 10px;
+    background-image: url('resize.png');
+  }
 
   h1{
+    font-family: 'Ubuntu Medium';
     margin: 0;
-    background-color: grey;
-    display: block;
-    width: 100px;
-    position: absolute;
+    padding: 0 7px;
     border-radius: 0 0 5px 0;
+    position: absolute;
+    background-color: #e2e2e2;
   }
 
   .subject{
-    outline: 1px solid white;
     font-family: 'Arial';
     position: absolute;
+    background-color: white;
+    min-height: 80px;
+    min-width: 200px;
+    border-radius: 0 5px 5px 5px;
+    .expand{
+      width: 20px;
+      height: 20px;
+      float: right;
+      background-image: url('expand.png');
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
     h3{
       margin: 0;
-      background-color: grey;
-      display: block;
-      width: 100px;
+      position: absolute;
+      font-family: 'Ubuntu Light';
+      padding: 0 7px;
       border-radius: 0 0 5px 0;
     }
   }

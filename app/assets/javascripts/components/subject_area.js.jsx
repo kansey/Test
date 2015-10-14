@@ -8,17 +8,28 @@ var SubjectArea = React.createClass({
       left: this.props.data.location.left,
       top: this.props.data.location.top,
       subjects: this.props.data.subjects,
-      name: this.props.data.name
+      name: this.props.data.name,
+      color: this.props.data.color,
+      expandClindIs: null
     }
   },
 
   mixins: [Edit],
 
+  handleChildHide: function(obj){
+    this.setState({expandClindIs: obj});
+  },
+
   render: function() {
     var _this = this;
-    var someStuff = this.props.data.subjects.map(function(item){
+    var someStuff = this.props.data.subjects.map(function(item, index){
       return (
-        <Subject data = {item} parent = {_this.state}/>
+        <Subject data = {item}
+                 edit = {_this.props.edit}
+                 parent = {_this.state}
+                 id = {index}
+                 hide = {((_this.state.expandClindIs === null) || (index === _this.state.expandClindIs)) ? false : true}
+                 hideAnother = {_this.handleChildHide}/>
       );
     });
 
@@ -26,43 +37,40 @@ var SubjectArea = React.createClass({
       width: this.state.width,
       height: this.state.height,
       marginLeft: this.state.left,
-      marginTop: this.state.top
-      //overflowY: 'auto',
-      //overflowX: 'hidden'
+      marginTop: this.state.top,
+      backgroundColor: 'rgba(' + this.state.color + ',' + 0.4 + ')'
     };
 
     var rightRunner = {
       height: this.state.height,
+      cursor: 'ew-resize',
       position: 'absolute',
       width: 3,
-      right: -1,
-      cursor: 'ew-resize'
+      right: -1
     };
 
     var bottomRunner = {
       width: this.state.width,
+      cursor: 'ns-resize',
       position: 'absolute',
       height: 3,
-      bottom: -1,
-      cursor: 'ns-resize'
+      bottom: -1
     };
 
-    var bothRunners = {
+    var inTheCornerRunner = {
+      cursor: 'nwse-resize',
       position: 'absolute',
-      height: 5,
-      width: 5,
       bottom: 0,
-      right: 0,
-      cursor: 'nwse-resize'
+      right: 0
     };
 
     return (
-      <div className = 'subjectArea' style = {style} onMouseDown = {this.handlePosition}>
-        <div className = 'right' style = {rightRunner} onMouseDown = {this.handleWidth}></div>
+      <div className = 'subjectArea' style = {style} onMouseDown = {this.props.edit ? this.handlePosition : ''}>
+        <div className = 'rightRunner' style = {this.props.edit ? rightRunner : {}} onMouseDown = {this.props.edit ? this.handleWidth : ''}></div>
         <h1>{this.state.name}</h1>
         {someStuff}
-        <div className = 'bottom' style = {bottomRunner} onMouseDown = {this.handleHeight}></div>
-        <div className = 'both' style = {bothRunners} onMouseDown = {this.handleSize}></div>
+        <div className = 'bottomRunner' style = {this.props.edit ? bottomRunner : {}} onMouseDown = {this.props.edit ? this.handleHeight : ''}></div>
+        <div className = 'inTheCornerRunner' style = {this.props.edit ? inTheCornerRunner : {}} onMouseDown = {this.props.edit ? this.handleSize : ''}></div>
       </div>
     );
   }

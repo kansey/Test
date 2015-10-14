@@ -29,34 +29,45 @@ var Edit = {
   },
 
   relocatePosition: function(event){
-    this.setState({top:  event.pageY - this.click.y});
-    this.setState({left: event.pageX - this.click.x});
+    this.relocatePositionY(event);
+    this.relocatePositionX(event);
+  },
+
+  relocatePositionY: function(event){
+    if (this.props.parent){
+      if (event.pageY - this.click.y < 0)
+         return this.setState({top: 0});
+      if ((event.pageY - this.click.y + this.state.height) > this.props.parent.height)
+         return this.setState({top: this.props.parent.height - this.state.height});
+    }
+    return this.setState({top:  event.pageY - this.click.y});
+  },
+
+  relocatePositionX: function(event){
+    if (this.props.parent){
+      if (event.pageX - this.click.x < 0)
+         return this.setState({left: 0});
+      if ((event.pageX - this.click.x + this.state.width) > this.props.parent.width)
+         return this.setState({left: this.props.parent.width - this.state.width});
+    }
+    return this.setState({left: event.pageX - this.click.x});
   },
 
   changeWidth: function(event){
-    if (this.props.parent){
-      this.setState({width: event.pageX - this.state.left - this.props.parent.left});
-    }else{
-      this.setState({width: event.pageX - this.state.left});
-    }
+    if (this.props.parent)
+    return this.setState({width: event.pageX - this.state.left - this.props.parent.left});
+    return this.setState({width: event.pageX - this.state.left});
   },
 
   changeHeight: function(event){
-    if (this.props.parent){
-      this.setState({height: event.pageY - this.state.top - this.props.parent.top});
-    }else{
-      this.setState({height: event.pageY - this.state.top});
-    }
+    if (this.props.parent)
+    return this.setState({height: event.pageY - this.state.top - this.props.parent.top});
+    return this.setState({height: event.pageY - this.state.top});
   },
 
   changeSize: function(event){
-    if (this.props.parent){
-      this.setState({width: event.pageX - this.state.left - this.props.parent.left});
-      this.setState({height: event.pageY - this.state.top - this.props.parent.top});
-    }else{
-      this.setState({height: event.pageY - this.state.top});
-      this.setState({width: event.pageX - this.state.left});
-    }
+    this.changeWidth(event);
+    this.changeHeight(event);
   },
 
   bindCancelListeners: function(){
