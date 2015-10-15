@@ -24,7 +24,7 @@ var SubjectArea = React.createClass({
 
   updateMinSize: function(width, height){
     if (this.state.minWidth < width) this.setState({minWidth: width});
-    if (this.state.minWidth < width) this.setState({minHeight: heigh});
+    if (this.state.minWidth < height) this.setState({minHeight: heigh});
   },
 
   render: function() {

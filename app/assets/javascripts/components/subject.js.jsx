@@ -48,9 +48,6 @@ var Subject = React.createClass({
 
     if (this.props.hide) return(<div></div>);
 
-    if (this.props.parent) this.props.sendSizeToParent(this.state.width + this.state.left,
-                                                       this.state.heigth + this.state.top);
-
     var style = {
       width: this.state.width,
       height: this.state.height,
