@@ -10,6 +10,8 @@ var Subject = React.createClass({
       width: this.props.data.location.width,
       left: this.props.data.location.left,
       top: this.props.data.location.top,
+      minHeight: 80,
+      minWidth: 195,
       name: this.props.data.name,
       spread: false,
       color: this.props.parent.color
@@ -44,9 +46,10 @@ var Subject = React.createClass({
 
   render: function() {
 
-    console.log('render');
-    if (this.props.hide)
-      return(<div></div>);
+    if (this.props.hide) return(<div></div>);
+
+    if (this.props.parent) this.props.sendSizeToParent(this.state.width + this.state.left,
+                                                       this.state.heigth + this.state.top);
 
     var style = {
       width: this.state.width,

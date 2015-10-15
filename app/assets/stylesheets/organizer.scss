@@ -11,8 +11,6 @@ body{
 button{position:absolute}
 
 .subjectArea{
-  min-height: 100px;
-  min-width: 250px;
   position: absolute;
   margin: 0;
   outline: 1px solid #e2e2e2;
@@ -36,8 +34,6 @@ button{position:absolute}
     font-family: 'Arial';
     position: absolute;
     background-color: white;
-    min-height: 80px;
-    min-width: 200px;
     border-radius: 0 5px 5px 5px;
     .expand{
       width: 20px;

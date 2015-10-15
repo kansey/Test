@@ -7,6 +7,8 @@ var SubjectArea = React.createClass({
       width: this.props.data.location.width,
       left: this.props.data.location.left,
       top: this.props.data.location.top,
+      minHeight: 150,
+      minWidth: 200,
       subjects: this.props.data.subjects,
       name: this.props.data.name,
       color: this.props.data.color,
@@ -20,6 +22,11 @@ var SubjectArea = React.createClass({
     this.setState({expandClindIs: obj});
   },
 
+  updateMinSize: function(width, height){
+    if (this.state.minWidth < width) this.setState({minWidth: width});
+    if (this.state.minWidth < width) this.setState({minHeight: heigh});
+  },
+
   render: function() {
     var _this = this;
     var someStuff = this.props.data.subjects.map(function(item, index){
@@ -29,7 +36,8 @@ var SubjectArea = React.createClass({
                  parent = {_this.state}
                  id = {index}
                  hide = {((_this.state.expandClindIs === null) || (index === _this.state.expandClindIs)) ? false : true}
-                 hideAnother = {_this.handleChildHide}/>
+                 hideAnother = {_this.handleChildHide}
+                 sendSizeToParent = {_this.updateMinSize}/>
       );
     });
 
