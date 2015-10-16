@@ -36,9 +36,9 @@ var Edit = {
   relocatePositionY: function(event){
     if (this.props.parent){
       if (event.pageY - this.click.y < 0)
-         return this.setState({top: 0});
+      return this.setState({top: 0});
       if ((event.pageY - this.click.y + this.state.height) > this.props.parent.height)
-         return this.setState({top: this.props.parent.height - this.state.height});
+      return this.setState({top: this.props.parent.height - this.state.height});
     }
     return this.setState({top:  event.pageY - this.click.y});
   },
@@ -56,26 +56,26 @@ var Edit = {
   changeHeight: function(event){
     if (this.props.parent){
       if (event.pageY - this.state.top - this.props.parent.top > this.props.parent.height - this.state.top)
-        return this.setState({height: this.props.parent.height - this.state.top});
+      return this.setState({height: this.props.parent.height - this.state.top});
       if ((event.pageY - this.state.top - this.props.parent.top) < this.state.minHeight)
-        return this.setState({height: this.state.minHeight});
+      return this.setState({height: this.state.minHeight});
       return this.setState({height: event.pageY - this.state.top - this.props.parent.top});
     }
     if ((event.pageY - this.state.top) < this.state.minHeight)
-      return this.setState({height: this.state.minHeight});
+    return this.setState({height: this.state.minHeight});
     return this.setState({height: event.pageY - this.state.top});
   },
 
   changeWidth: function(event){
     if (this.props.parent){
       if (event.pageX - this.state.left - this.props.parent.left > this.props.parent.width - this.state.left)
-        return this.setState({width: this.props.parent.width - this.state.left});
+      return this.setState({width: this.props.parent.width - this.state.left});
       if ((event.pageX - this.state.left - this.props.parent.left) < this.state.minWidth)
-        return this.setState({width: this.state.minWidth});
+      return this.setState({width: this.state.minWidth});
       return this.setState({width: event.pageX - this.state.left - this.props.parent.left});
     }
     if ((event.pageX - this.state.left) < this.state.minWidth)
-      return this.setState({width: this.state.minWidth});
+    return this.setState({width: this.state.minWidth});
     return this.setState({width: event.pageX - this.state.left});
   },
 
@@ -91,6 +91,8 @@ var Edit = {
       document.removeEventListener('mousemove', _this.changeHeight, false);
       document.removeEventListener('mousemove', _this.changeWidth, false);
       document.removeEventListener('mousemove', _this.changeSize, false);
+      if (_this.props.parent)
+      _this.props.sendSizeToParent(_this.state.width + _this.state.left, _this.state.height + _this.state.top);
     });
   }
 }

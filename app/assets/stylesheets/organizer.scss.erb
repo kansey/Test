@@ -1,0 +1,96 @@
+// Place all the styles related to the organizer controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+body{
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  background-image: url('<%= asset_path("bg.png") %>');
+}
+
+button{position:absolute}
+
+.subjectArea{
+  position: absolute;
+  margin: 0;
+  outline: 1px solid #e2e2e2;
+
+  .rightSlider{
+    cursor: ew-resize;
+    position: absolute;
+  }
+
+  .bottomSlider{
+    cursor: ns-resize;
+    position: absolute;
+  }
+
+  .middleSlider{
+    cursor: nwse-resize;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-image: url('resize.png''<%= asset_path("bg.png") %>');
+  }
+
+  h1{
+    font-family: 'Ubuntu Medium';
+    margin: 0;
+    padding: 0 7px;
+    border-radius: 0 0 5px 0;
+    position: absolute;
+    background-color: #e2e2e2;
+  }
+
+  .subject{
+    font-family: 'Arial';
+    position: absolute;
+    background-color: white;
+    .expand{
+      width: 20px;
+      height: 20px;
+      float: right;
+      background-image: url('<%= asset_path("expand.png") %>');
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 3px;
+    }
+    .expand:hover{background-color: grey}
+    .edit{
+      width: 20px;
+      height: 20px;
+      float: right;
+      background-image: url('<%= asset_path("edit.png") %>');
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 3px;
+    }
+    .edit:hover{background-color: grey}
+    .start{
+      width: 20px;
+      height: 20px;
+      background-image: url('<%= asset_path("start.png") %>');
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-top: 25px;
+      float: left;
+    }
+    h3{
+      margin: 0;
+      position: absolute;
+      font-family: 'Ubuntu Light';
+      padding: 0 7px;
+      border-radius: 0 0 5px 0;
+    }
+    .watch{
+      margin-top: 27px;
+      width:100px;
+      height: 25px;
+    }
+  }
+}
