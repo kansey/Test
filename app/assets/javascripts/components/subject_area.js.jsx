@@ -1,7 +1,6 @@
 var SubjectArea = React.createClass({
 
   getInitialState: function(){
-    $(document).disableSelection();
     return {
       height:   this.props.data.location.height,
       width:    this.props.data.location.width,
@@ -20,6 +19,7 @@ var SubjectArea = React.createClass({
   mixins: [Edit],
 
   handleSubjectsHide: function(subject){
+    (subject === null) ? this.setState({edit: true}) : this.setState({edit: false})
     this.setState({expandChildIs: subject});
   },
 

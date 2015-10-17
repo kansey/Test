@@ -32,7 +32,7 @@ button{position:absolute}
     right: 0;
     width: 10px;
     height: 10px;
-    background-image: url('resize.png''<%= asset_path("bg.png") %>');
+    background-image: url('<%= asset_path("resize.png") %>');
   }
 
   h1{
@@ -91,6 +91,17 @@ button{position:absolute}
       margin-top: 27px;
       width:100px;
       height: 25px;
+    }
+    .infoLine{
+      width: auto;
+      height: 15px;
+    }
+    .task{
+      outline: 1px black solid;
+      width: auto;
+      margin: 5px;
+      height: 25px;
+      padding:7px 5px 5px;
     }
   }
 }

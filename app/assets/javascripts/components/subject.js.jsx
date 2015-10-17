@@ -11,6 +11,7 @@ var Subject = React.createClass({
       height: this.props.data.location.height,
       color:  this.props.parent.color,
       name:   this.props.data.name,
+      tasks:  this.props.data.tasks,
       benchmark: '',
       minHeight: 80,
       minWidth: 195,
@@ -81,7 +82,7 @@ var Subject = React.createClass({
 
     if (this.props.hide) return(<div />);
 
-    var someStuff = this.props.data.tasks.map(function(item, index){
+    var someStuff = this.state.tasks.map(function(item, index){
       return (
         <Task key = {index} title = {item.title} />
       );
@@ -92,6 +93,20 @@ var Subject = React.createClass({
       height:     this.state.height,
       marginLeft: this.state.left,
       marginTop:  this.state.top
+    };
+
+    var tasksBoxStyle = {
+      width: 'auto',
+      position: 'static',
+      marginBottom: 5
+    }
+
+    if (this.state.spread) {
+      tasksBoxStyle.height = this.state.height - 75;
+      tasksBoxStyle.borderTop = '1px solid black';
+      tasksBoxStyle.borderBottom = '1px solid black';
+      tasksBoxStyle.overflow = 'hidden';
+      tasksBoxStyle.overflowY = 'auto';
     };
 
     var titleStyle = {
@@ -135,7 +150,10 @@ var Subject = React.createClass({
         <div className = 'edit'  onClick = {(!this.state.spread) ? this.editToggle : null}></div>
         <div className = 'start' onClick = {this.state.watching ? this.stopWatching : this.watching}></div>
         <div className = 'watch'>{this.state.watch}</div>
-        {this.state.spread ? someStuff : null}
+        <div className = 'tasksBox' style = {tasksBoxStyle}>
+          {this.state.spread ? someStuff : null}
+        </div>
+        <div className = 'infoLine'>tasks: {this.state.tasks.length}</div>
         <div className = 'bottomSlider' style = {bottomSliderStyle} onMouseDown = {this.handleHeight}></div>
         <div className = 'middleSlider' style = {middleSliderStyle} onMouseDown = {this.handleSize}></div>
       </div>
