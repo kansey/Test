@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   get 'tetris/first' => 'tetris#simple_same'
   get 'organizer/global' => 'organizer#global'
+  post 'organizer/subject' => 'organizer#got_subject'
+  post 'organizer/subject_area' => 'organizer#got_subject_area'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

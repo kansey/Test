@@ -91,8 +91,10 @@ var Edit = {
       document.removeEventListener('mousemove', _this.changeHeight, false);
       document.removeEventListener('mousemove', _this.changeWidth, false);
       document.removeEventListener('mousemove', _this.changeSize, false);
+      $(document).unbind('mouseup');
       if (_this.props.parent)
       _this.props.sendSizeToParent(_this.state.width + _this.state.left, _this.state.height + _this.state.top);
+      _this.sendToServer();
     });
   }
 }

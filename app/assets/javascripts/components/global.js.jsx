@@ -1,12 +1,9 @@
 var Global = React.createClass({
 
-  getInitialState: function(){
-    return {edit: false};
-  },
-
   render: function() {
     var _this = this;
     var someStuff = this.props.data.map(function(item,index){
+      
       return (
         <SubjectArea key = {index} data = {item}/>
       );

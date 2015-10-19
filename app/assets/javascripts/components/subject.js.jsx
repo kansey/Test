@@ -3,27 +3,39 @@ var Subject = React.createClass({
   mixins: [Edit],
 
   getInitialState: function(){
-    $(document).disableSelection();
     return {
-      width:  this.props.data.location.width,
-      left:   this.props.data.location.left,
-      top:    this.props.data.location.top,
-      height: this.props.data.location.height,
+      height: this.props.data.height,
+      width:  this.props.data.width,
+      left:   this.props.data.left,
+      top:    this.props.data.top,
       color:  this.props.parent.color,
+      tasks:  [],
       name:   this.props.data.name,
-      tasks:  this.props.data.tasks,
+      watch: this.props.data.watch,
+      parent_id: this.props.parent.id,
+      id: this.props.data.id,
       benchmark: '',
+      resizable: false,
+      relocatable: false,
       minHeight: 80,
       minWidth: 195,
       spread: false,
-      watch: '0:0:0:0',
       watching: false,
-      haveBeenWatching: 0
+      haveBeenWatching: this.props.data.haveBeenWatching
     }
   },
 
+  sendToServer: function(){
+    $.ajax({
+      url: 'http://localhost:8080/organizer/subject',
+      dataType: 'json',
+      type: 'POST',
+      data: this.state
+    });
+  },
+
   editToggle: function(){
-    this.setState({edit: !this.state.edit});
+    this.setState({relocatable: !this.state.relocatable, resizable: !this.state.resizable});
   },
 
   expand: function(){
@@ -37,7 +49,9 @@ var Subject = React.createClass({
       height: this.props.parent.height,
       top: 0,
       left: 0,
-      spread: true
+      spread: true,
+      resizable: false,
+      relocatable: false
     });
     this.props.hideAnother(this.props.id);
   },
@@ -76,6 +90,7 @@ var Subject = React.createClass({
     this.setState({haveBeenWatching: this.haveBeenWatching});
     this.setState({watching: false});
     clearInterval(this.timeOut);
+    this.sendToServer();
   },
 
   render: function() {
@@ -131,7 +146,7 @@ var Subject = React.createClass({
       visibility: 'visible'
     };
 
-    if (!this.state.edit){
+    if (!this.state.resizable){
       //display
       rightSliderStyle.visibility = 'hidden';
       bottomSliderStyle.visibility = 'hidden';
@@ -143,7 +158,7 @@ var Subject = React.createClass({
     }
 
     return (
-      <div className = 'subject' style = {style} onMouseDown = {this.state.edit ? this.handlePosition : ''}>
+      <div className = 'subject' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
         <h3 style = {titleStyle}>{this.state.name}</h3>
         <div className = 'expand'  onClick = {(this.state.spread) ? this.turn : this.expand}></div>

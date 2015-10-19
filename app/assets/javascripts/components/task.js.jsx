@@ -10,10 +10,6 @@ var Task = React.createClass({
     this.setState({done: !this.state.done});
   },
 
-  sort: function(){
-    
-  },
-
   render: function() {
 
     var style = {
