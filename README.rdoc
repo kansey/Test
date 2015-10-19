@@ -1,6 +1,1 @@
-# js fourinrow
-**link to**
-- http://fourinrow.herokuapp.com/tetris/first
-
-**codebase**
-- https://github.com/JGena/Test/blob/master/app/assets/javascripts/application.js
+https://guarded-ridge-7427.herokuapp.com/organizer/global
