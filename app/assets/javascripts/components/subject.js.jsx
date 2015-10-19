@@ -27,7 +27,7 @@ var Subject = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'http://localhost:8080/organizer/subject',
+      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
       dataType: 'json',
       type: 'POST',
       data: this.state

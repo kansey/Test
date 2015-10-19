@@ -49,7 +49,7 @@ var SubjectArea = React.createClass({
   sendToServer: function(){
     console.log('call');
     $.ajax({
-      url: 'http://localhost:8080/organizer/subject_area',
+      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject_area',
       dataType: 'json',
       type: 'POST',
       data: this.state
