@@ -1,25 +1,24 @@
 var SubjectArea = React.createClass({
 
+  mixins: [Edit],
+
   getInitialState: function(){
-    $(document).disableSelection();
     return {
-      height:   this.props.data.height,
-      width:    this.props.data.width,
-      left:     this.props.data.left,
-      top:      this.props.data.top,
+      height:   this.props.data.state.height,
+      width:    this.props.data.state.width,
+      left:     this.props.data.state.left,
+      top:      this.props.data.state.top,
       subjects: this.props.data.subjects,
-      color:    this.props.data.color,
-      name:     this.props.data.name,
+      color:    this.props.data.state.color,
+      name:     this.props.data.state.name,
       id:       this.props.data.id,
       expandChildIs: null,
-      relocatable: true,
-      resizable: true,
-      minHeight: 500,//this.props.data.minHeight,
-      minWidth: 300//this.props.data.minWidth
+      relocatable:   true,
+      resizable:     true,
+      minHeight:     this.props.data.state.minHeight,
+      minWidth:      this.props.data.state.minWidth
     }
   },
-
-  mixins: [Edit],
 
   handleSubjectsHide: function(subject){
     (subject === null) ? this.setState({resizable: true}) : this.setState({resizable: false})
@@ -27,33 +26,61 @@ var SubjectArea = React.createClass({
   },
 
   updateMinSize: function(width, height){
-    if (this.state.minWidth < width) this.setState({minWidth: width});
-    if (this.state.minHeight < height) this.setState({minHeight: height});
+    //if (this.state.minWidth < width) this.setState({minWidth: width});
+    //if (this.state.minHeight < height) this.setState({minHeight: height});
   },
 
-  addTask: function(){
-    var subjects = this.state.subjects.concat([{
-      width:  200,
-      left:   0,
-      top:    0,
-      height: 80,
-      id: 0,
-      name:   '#noname#',
-      tasks:  [],
-      watch: '0:0:0:0',
-      haveBeenWatching: 0
-    }]);
-    this.setState({subjects: subjects});
+  addSubject: function(){
+    event.stopPropagation();
+    this.callNew();
   },
 
   sendToServer: function(){
-    console.log('call');
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject_area',
-      dataType: 'json',
+      url: 'http://localhost:8080/organizer/subject_area',
+      dataType: 'JSON',
       type: 'POST',
-      data: this.state
+      data: this.prepData()
     });
+  },
+
+  callNew: function(){
+    $.ajax({
+      url: 'http://localhost:8080/organizer/subject/new',
+      dataType: 'JSON',
+      type: 'POST',
+      data: {name: '#noname#', id: this.state.id},
+      success: function(data) {
+        this.setState({subjects: this.state.subjects.concat([data])});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  prepData: function(){
+    return {
+      id: this.state.id,
+      state: {
+        height: this.state.height,
+        width: this.state.width,
+        left: this.state.left,
+        top: this.state.top,
+        color: this.state.color,
+        name: this.state.name,
+        minHeight: this.state.minHeight,
+        minWidth: this.state.minWidth
+      }
+    }
+  },
+
+  deleteChild: function(childId){
+    for(var i = 0; i < this.state.subjects.length; i++){
+      console.log(this.state.subjects[i].id, childId);
+      if (this.state.subjects[i].id === childId) this.state.subjects.splice(i,1);
+    }
+    this.setState({subjects: this.state.subjects});
   },
 
   render: function() {
@@ -67,6 +94,7 @@ var SubjectArea = React.createClass({
                  resizable = {_this.props.resizable}
                  relocatable = {_this.props.edit}
                  parent = {_this.state}
+                 delete = {_this.deleteChild}
                  data = {item}
                  key = {index}
                  id = {index} />
@@ -114,7 +142,7 @@ var SubjectArea = React.createClass({
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
         <h1>{this.state.name}</h1>
         {someStuff}
-        <button onClick = {this.addTask} style = {{bottom: 0, position: 'absolute'}}>add</button>
+        <div className = 'addSubject' onClick = {this.addSubject}></div>
         <div className = 'bottomSlider' style = {bottomSliderStyle} onMouseDown = {this.handleHeight}></div>
         <div className = 'middleSlider' style = {middleSliderStyle} onMouseDown = {this.handleSize}></div>
       </div>

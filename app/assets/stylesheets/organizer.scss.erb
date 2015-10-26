@@ -10,10 +10,24 @@ body{
 
 button{position:absolute}
 
+.addArea{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('<%= asset_path("add.png") %>');
+}
+
 .subjectArea{
   position: absolute;
   margin: 0;
   outline: 1px solid #e2e2e2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   .rightSlider{
     cursor: ew-resize;
@@ -44,20 +58,31 @@ button{position:absolute}
     background-color: #e2e2e2;
   }
 
+  .addSubject{
+    float: right;
+    width: 20px;
+    height: 20px;
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("add.png");
+  }
+
   .subject{
     font-family: 'Arial';
     position: absolute;
     background-color: white;
-    .expand{
+    .delete{
       width: 20px;
       height: 20px;
       float: right;
-      background-image: url('<%= asset_path("expand.png") %>');
+      background-image: url('<%= asset_path("delete.png") %>');
       background-size: 15px 15px;
       background-repeat: no-repeat;
       background-position: center;
       border-radius: 3px;
     }
+    .delete:hover{background-color: grey}
     .expand:hover{background-color: grey}
     .edit{
       width: 20px;

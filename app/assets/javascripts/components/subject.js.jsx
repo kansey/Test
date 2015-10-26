@@ -4,16 +4,15 @@ var Subject = React.createClass({
 
   getInitialState: function(){
     return {
-      height: this.props.data.height,
-      width:  this.props.data.width,
-      left:   this.props.data.left,
-      top:    this.props.data.top,
+      height: this.props.data.state.height,
+      width:  this.props.data.state.width,
+      left:   this.props.data.state.left,
+      top:    this.props.data.state.top,
       color:  this.props.parent.color,
+      name:   this.props.data.state.name,
+      watch:  this.props.data.state.watch,
+      id:     this.props.data.id,
       tasks:  [],
-      name:   this.props.data.name,
-      watch: this.props.data.watch,
-      parent_id: this.props.parent.id,
-      id: this.props.data.id,
       benchmark: '',
       resizable: false,
       relocatable: false,
@@ -21,17 +20,45 @@ var Subject = React.createClass({
       minWidth: 195,
       spread: false,
       watching: false,
-      haveBeenWatching: this.props.data.haveBeenWatching
+      rename: false,
+      haveBeenWatching: this.props.data.state.haveBeenWatching
     }
   },
 
   sendToServer: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
-      dataType: 'json',
+      url: 'http://localhost:8080/organizer/subject',
+      dataType: 'JSON',
       type: 'POST',
-      data: this.state
+      data: this.prepData()
     });
+  },
+
+  delete: function(){
+    $.ajax({
+      url: 'http://localhost:8080/organizer/subject',
+      type: 'DELETE',
+      dataType: 'JSON',
+      data: {id: this.state.id},
+      success: function(data) {
+        this.props.delete(data.id);
+      }.bind(this)
+    });
+  },
+
+  prepData: function(){
+    return {
+      id: this.state.id,
+      state: {
+        height: this.state.height,
+        width: this.state.width,
+        left: this.state.left,
+        top: this.state.top,
+        name: this.state.name,
+        watch: this.state.watch,
+        haveBeenWatching: this.state.haveBeenWatching
+      }
+    }
   },
 
   editToggle: function(){
@@ -54,6 +81,15 @@ var Subject = React.createClass({
       relocatable: false
     });
     this.props.hideAnother(this.props.id);
+  },
+
+  rename: function(){
+    this.setState({rename: !this.state.rename});
+    this.sendToServer();
+  },
+
+  nameChange: function(event){
+    this.setState({name: event.target.value});
   },
 
   turn: function(){
@@ -116,12 +152,24 @@ var Subject = React.createClass({
       marginBottom: 5
     }
 
+    var expandStyle = {
+      width: '20px',
+      height: '20px',
+      float: 'right',
+      backgroundImage: 'url("../assets/expand.png")',
+      backgroundSize: '15px 15px',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      borderRadius: '3px'
+    }
+
     if (this.state.spread) {
       tasksBoxStyle.height = this.state.height - 75;
       tasksBoxStyle.borderTop = '1px solid black';
       tasksBoxStyle.borderBottom = '1px solid black';
       tasksBoxStyle.overflow = 'hidden';
       tasksBoxStyle.overflowY = 'auto';
+      expandStyle.backgroundImage = 'url("../assets/expandoff.png")'
     };
 
     var titleStyle = {
@@ -160,9 +208,15 @@ var Subject = React.createClass({
     return (
       <div className = 'subject' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
-        <h3 style = {titleStyle}>{this.state.name}</h3>
-        <div className = 'expand'  onClick = {(this.state.spread) ? this.turn : this.expand}></div>
-        <div className = 'edit'  onClick = {(!this.state.spread) ? this.editToggle : null}></div>
+        <h3 style = {titleStyle} onDoubleClick = {this.rename}>
+          {(this.state.rename) ? <input type = 'text' size = '10'
+                                        onChange = {this.nameChange}
+                                        defaultValue = {this.state.name} />
+                               : this.state.name}
+        </h3>
+        <div className = 'delete' onClick = {this.delete}></div>
+        <div className = 'expand' style = {expandStyle} onClick = {(this.state.spread) ? this.turn : this.expand}></div>
+        <div className = 'edit' onClick = {(!this.state.spread) ? this.editToggle : null}></div>
         <div className = 'start' onClick = {this.state.watching ? this.stopWatching : this.watching}></div>
         <div className = 'watch'>{this.state.watch}</div>
         <div className = 'tasksBox' style = {tasksBoxStyle}>

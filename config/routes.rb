@@ -4,10 +4,13 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  get 'tetris/first' => 'tetris#simple_same'
-  get 'organizer/global' => 'organizer#global'
-  post 'organizer/subject' => 'organizer#got_subject'
-  post 'organizer/subject_area' => 'organizer#got_subject_area'
+  get 'tetris/first'                => 'tetris#simple_same'
+  get 'organizer/global'            => 'organizer#global'
+  post 'organizer/subject'          => 'organizer#got_subject'
+  post 'organizer/subject_area'     => 'organizer#got_subject_area'
+  post 'organizer/subject_area/new' => 'organizer#subject_area_new'
+  post 'organizer/subject/new'      => 'organizer#subject_new'
+  delete 'organizer/subject'        => 'organizer#subject_destroy'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
