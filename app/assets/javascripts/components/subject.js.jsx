@@ -27,7 +27,7 @@ var Subject = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'http://localhost:8080/organizer/subject',
+      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
       dataType: 'JSON',
       type: 'POST',
       data: this.prepData()
@@ -36,7 +36,7 @@ var Subject = React.createClass({
 
   delete: function(){
     $.ajax({
-      url: 'http://localhost:8080/organizer/subject',
+      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
       type: 'DELETE',
       dataType: 'JSON',
       data: {id: this.state.id},
