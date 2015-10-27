@@ -13,7 +13,7 @@ var Global = React.createClass({
 
   callNew: function(){
     $.ajax({
-      url: 'http://localhost:8080/organizer/subject_area/new',
+      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject_area/new',
       dataType: 'JSON',
       type: 'POST',
       data: {name: '#noname#'},
