@@ -37,19 +37,28 @@ var SubjectArea = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject_area',
+      url: 'http://localhost:8080/organizer/subject_area',
       dataType: 'JSON',
       type: 'POST',
       data: this.prepData()
     });
   },
 
+  rename: function(){
+    var name = prompt("to change name", this.state.name);
+    if (name.length === 0 || name === null) return;
+    this.setState({name: name});
+    this.sendToServer();
+  },
+
   callNew: function(){
+    var name = prompt("name", '#noname#');
+    if (name.length === 0 || name === null) name = '#noname#';
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject/new',
+      url: 'http://localhost:8080/organizer/subject/new',
       dataType: 'JSON',
       type: 'POST',
-      data: {name: '#noname#', id: this.state.id},
+      data: {name: name, id: this.state.id},
       success: function(data) {
         this.setState({subjects: this.state.subjects.concat([data])});
       }.bind(this),
@@ -76,11 +85,22 @@ var SubjectArea = React.createClass({
   },
 
   deleteChild: function(childId){
-    for(var i = 0; i < this.state.subjects.length; i++){
-      console.log(this.state.subjects[i].id, childId);
-      if (this.state.subjects[i].id === childId) this.state.subjects.splice(i,1);
-    }
-    this.setState({subjects: this.state.subjects});
+    this.setState({
+      subjects: this.state.subjects.filter(function(value){
+        return value.id !== childId
+      })
+    })
+  },
+
+  delete: function(){
+    $.ajax({
+      url: 'http://localhost:8080/organizer/subject_area',
+      type: 'DELETE',
+      data: {id: this.state.id},
+      success: function(data) {
+        this.props.delete(this.state.id);
+      }.bind(this)
+    });
   },
 
   render: function() {
@@ -88,7 +108,7 @@ var SubjectArea = React.createClass({
     var someStuff = this.state.subjects.map(function(item, index){
       return (
         <Subject hide = {((_this.state.expandChildIs === null) ||
-                          (index === _this.state.expandChildIs)) ? false : true}
+                          (item.id === _this.state.expandChildIs)) ? false : true}
                  sendSizeToParent = {_this.updateMinSize}
                  hideAnother = {_this.handleSubjectsHide}
                  resizable = {_this.props.resizable}
@@ -96,8 +116,7 @@ var SubjectArea = React.createClass({
                  parent = {_this.state}
                  delete = {_this.deleteChild}
                  data = {item}
-                 key = {index}
-                 id = {index} />
+                 key = {item.id} />
       );
     });
 
@@ -140,8 +159,9 @@ var SubjectArea = React.createClass({
     return (
       <div className = 'subjectArea' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
-        <h1>{this.state.name}</h1>
+        <h1 onDoubleClick = {this.rename} >{this.state.name}</h1>
         {someStuff}
+        <div className = 'delete' onClick = {this.delete}></div>
         <div className = 'addSubject' onClick = {this.addSubject}></div>
         <div className = 'bottomSlider' style = {bottomSliderStyle} onMouseDown = {this.handleHeight}></div>
         <div className = 'middleSlider' style = {middleSliderStyle} onMouseDown = {this.handleSize}></div>

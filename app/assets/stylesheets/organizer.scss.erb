@@ -58,6 +58,18 @@ button{position:absolute}
     background-color: #e2e2e2;
   }
 
+  .delete{
+    width: 20px;
+    height: 20px;
+    float: right;
+    background-image: url('<%= asset_path("delete.png") %>');
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 3px;
+  }
+  .delete:active{background-color: grey}
+
   .addSubject{
     float: right;
     width: 20px;
@@ -72,18 +84,8 @@ button{position:absolute}
     font-family: 'Arial';
     position: absolute;
     background-color: white;
-    .delete{
-      width: 20px;
-      height: 20px;
-      float: right;
-      background-image: url('<%= asset_path("delete.png") %>');
-      background-size: 15px 15px;
-      background-repeat: no-repeat;
-      background-position: center;
-      border-radius: 3px;
-    }
-    .delete:hover{background-color: grey}
-    .expand:hover{background-color: grey}
+
+    .expand:active{background-color: grey}
     .edit{
       width: 20px;
       height: 20px;
@@ -94,7 +96,7 @@ button{position:absolute}
       background-position: center;
       border-radius: 3px;
     }
-    .edit:hover{background-color: grey}
+    .edit:active{background-color: grey}
     .start{
       width: 20px;
       height: 20px;

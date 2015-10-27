@@ -20,14 +20,13 @@ var Subject = React.createClass({
       minWidth: 195,
       spread: false,
       watching: false,
-      rename: false,
       haveBeenWatching: this.props.data.state.haveBeenWatching
     }
   },
 
   sendToServer: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
+      url: 'http://localhost:8080/organizer/subject',
       dataType: 'JSON',
       type: 'POST',
       data: this.prepData()
@@ -36,14 +35,14 @@ var Subject = React.createClass({
 
   delete: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
+      url: 'http://localhost:8080/organizer/subject',
       type: 'DELETE',
-      dataType: 'JSON',
       data: {id: this.state.id},
-      success: function(data) {
-        this.props.delete(data.id);
+      success: function() {
+        this.props.delete(this.state.id);
       }.bind(this)
     });
+    this.turn();
   },
 
   prepData: function(){
@@ -80,16 +79,14 @@ var Subject = React.createClass({
       resizable: false,
       relocatable: false
     });
-    this.props.hideAnother(this.props.id);
+    this.props.hideAnother(this.state.id);
   },
 
   rename: function(){
-    this.setState({rename: !this.state.rename});
+    var name = prompt("to change name", this.state.name);
+    if (name.length === 0 || name === null) return;
+    this.setState({name: name});
     this.sendToServer();
-  },
-
-  nameChange: function(event){
-    this.setState({name: event.target.value});
   },
 
   turn: function(){
@@ -205,18 +202,15 @@ var Subject = React.createClass({
       middleSliderStyle.visibility = 'visible';
     }
 
+    var edit = <div className = 'edit' onClick = {this.editToggle}></div>
+
     return (
       <div className = 'subject' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
-        <h3 style = {titleStyle} onDoubleClick = {this.rename}>
-          {(this.state.rename) ? <input type = 'text' size = '10'
-                                        onChange = {this.nameChange}
-                                        defaultValue = {this.state.name} />
-                               : this.state.name}
-        </h3>
+        <h3 style = {titleStyle} onDoubleClick = {this.rename}>{this.state.name}</h3>
         <div className = 'delete' onClick = {this.delete}></div>
         <div className = 'expand' style = {expandStyle} onClick = {(this.state.spread) ? this.turn : this.expand}></div>
-        <div className = 'edit' onClick = {(!this.state.spread) ? this.editToggle : null}></div>
+        {(!this.state.spread) ? {edit} : null}
         <div className = 'start' onClick = {this.state.watching ? this.stopWatching : this.watching}></div>
         <div className = 'watch'>{this.state.watch}</div>
         <div className = 'tasksBox' style = {tasksBoxStyle}>

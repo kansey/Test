@@ -46,7 +46,12 @@ class OrganizerController < ApplicationController
 
   def subject_destroy
     Subject.find(params[:id]).destroy
-    render json: {id: params[:id].to_i}
+    render nothing: true
+  end
+
+  def subject_area_destroy
+    SubjectArea.find(params[:id]).destroy
+    render nothing: true
   end
 
   def got_subject_area

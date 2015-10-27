@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post 'organizer/subject_area/new' => 'organizer#subject_area_new'
   post 'organizer/subject/new'      => 'organizer#subject_new'
   delete 'organizer/subject'        => 'organizer#subject_destroy'
+  delete 'organizer/subject_area'   => 'organizer#subject_area_destroy'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
