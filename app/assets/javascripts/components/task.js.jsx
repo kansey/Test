@@ -18,7 +18,7 @@ var Task = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'guarded-ridge-7427.herokuapp.com/organizer/task',
+      url: '/organizer/task',
       dataType: 'JSON',
       type: 'POST',
       data: this.state

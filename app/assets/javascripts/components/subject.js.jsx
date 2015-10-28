@@ -26,7 +26,7 @@ var Subject = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject',
+      url: '/organizer/subject',
       dataType: 'JSON',
       type: 'POST',
       data: this.prepData()
@@ -35,7 +35,7 @@ var Subject = React.createClass({
 
   delete: function(){
     $.ajax({
-      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject',
+      url: '/organizer/subject',
       type: 'DELETE',
       data: {id: this.state.id},
       success: function() {
@@ -49,7 +49,7 @@ var Subject = React.createClass({
     var title = prompt("title", 'title');
     if (title.length === 0 || title === null) return;
     $.ajax({
-      url: 'guarded-ridge-7427.herokuapp.com/organizer/task/new',
+      url: '/organizer/task/new',
       dataType: 'JSON',
       type: 'POST',
       data: {title: title, id: this.state.id},
