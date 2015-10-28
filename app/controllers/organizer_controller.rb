@@ -1,15 +1,28 @@
 class OrganizerController < ApplicationController
 
   def global
-    subjects = []
     @data = []
     @subject_area = SubjectArea.all
     @subject_area.each do |area|
       subjects = []
       area.subject.each do |item|
-        subjects.push({id: item.id, state: item.data})
+        tasks = []
+        item.task.each do |task|
+          tasks.push({id: task.id, state: {title: task.title, description: task.description,
+                                              link: task.link, value: task.value}})
+        end
+        subjects.push({id: item.id, state: item.data, tasks: tasks})
       end
       @data.push({id: area.id, state: area.data, subjects: subjects})
+    end
+  end
+
+  def task_new
+    task = Subject.find(params[:id]).task.new(title: params[:title], value: false)
+    task.save
+    respond_to do |format|
+      format.json  {render json: {id: task.id, state: {title: task.title, description: task.description,
+                                          link: task.link, value: task.value}}}
     end
   end
 
@@ -29,6 +42,16 @@ class OrganizerController < ApplicationController
     respond_to do |format|
       format.json  {render json: {id: area.id, state: area.data, subjects: []}}
     end
+  end
+
+  def got_task
+    Task.find(params[:id]).update(
+      id: params[:id].to_i,
+      title: params[:title],
+      description: params[:description],
+      link: params[:link],
+      value: params[:value]
+    )
   end
 
   def got_subject

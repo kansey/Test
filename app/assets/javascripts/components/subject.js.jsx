@@ -12,7 +12,7 @@ var Subject = React.createClass({
       name:   this.props.data.state.name,
       watch:  this.props.data.state.watch,
       id:     this.props.data.id,
-      tasks:  [],
+      tasks:  this.props.data.tasks,
       benchmark: '',
       resizable: false,
       relocatable: false,
@@ -26,7 +26,7 @@ var Subject = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
+      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject',
       dataType: 'JSON',
       type: 'POST',
       data: this.prepData()
@@ -35,7 +35,7 @@ var Subject = React.createClass({
 
   delete: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject',
+      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject',
       type: 'DELETE',
       data: {id: this.state.id},
       success: function() {
@@ -43,6 +43,20 @@ var Subject = React.createClass({
       }.bind(this)
     });
     this.turn();
+  },
+
+  callNew: function(){
+    var title = prompt("title", 'title');
+    if (title.length === 0 || title === null) return;
+    $.ajax({
+      url: 'guarded-ridge-7427.herokuapp.com/organizer/task/new',
+      dataType: 'JSON',
+      type: 'POST',
+      data: {title: title, id: this.state.id},
+      success: function(data) {
+        this.setState({tasks: this.state.tasks.concat([data])});
+      }.bind(this)
+    });
   },
 
   prepData: function(){
@@ -116,6 +130,7 @@ var Subject = React.createClass({
       s = s - m * 60;
       _this.haveBeenWatching = dt;
       _this.setState({watch: d+':'+h+':'+m+':'+s});
+      console.log(_this.timeOut);
     },500);
   },
 
@@ -132,7 +147,7 @@ var Subject = React.createClass({
 
     var someStuff = this.state.tasks.map(function(item, index){
       return (
-        <Task key = {index} title = {item.title} />
+        <Task key = {index} data = {item} />
       );
     });
 
@@ -203,6 +218,7 @@ var Subject = React.createClass({
     }
 
     var edit = <div className = 'edit' onClick = {this.editToggle}></div>
+    var addTask = <div className = 'addTask' onClick = {this.callNew}></div>
 
     return (
       <div className = 'subject' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
@@ -211,6 +227,7 @@ var Subject = React.createClass({
         <div className = 'delete' onClick = {this.delete}></div>
         <div className = 'expand' style = {expandStyle} onClick = {(this.state.spread) ? this.turn : this.expand}></div>
         {(!this.state.spread) ? {edit} : null}
+        {(this.state.spread) ? {addTask} : null}
         <div className = 'start' onClick = {this.state.watching ? this.stopWatching : this.watching}></div>
         <div className = 'watch'>{this.state.watch}</div>
         <div className = 'tasksBox' style = {tasksBoxStyle}>

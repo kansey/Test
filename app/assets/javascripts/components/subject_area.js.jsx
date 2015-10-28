@@ -37,7 +37,7 @@ var SubjectArea = React.createClass({
 
   sendToServer: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject_area',
+      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject_area',
       dataType: 'JSON',
       type: 'POST',
       data: this.prepData()
@@ -55,15 +55,12 @@ var SubjectArea = React.createClass({
     var name = prompt("name", '#noname#');
     if (name.length === 0 || name === null) name = '#noname#';
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject/new',
+      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject/new',
       dataType: 'JSON',
       type: 'POST',
       data: {name: name, id: this.state.id},
       success: function(data) {
         this.setState({subjects: this.state.subjects.concat([data])});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
@@ -94,7 +91,7 @@ var SubjectArea = React.createClass({
 
   delete: function(){
     $.ajax({
-      url: 'https://guarded-ridge-7427.herokuapp.com/organizer/subject_area',
+      url: 'guarded-ridge-7427.herokuapp.com/organizer/subject_area',
       type: 'DELETE',
       data: {id: this.state.id},
       success: function(data) {

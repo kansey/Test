@@ -77,13 +77,23 @@ button{position:absolute}
     background-size: 15px 15px;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url("add.png");
+    background-image: url('<%= asset_path("add.png") %>');
   }
 
   .subject{
     font-family: 'Arial';
     position: absolute;
     background-color: white;
+
+    .addTask{
+      float: right;
+      width: 20px;
+      height: 20px;
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url('<%= asset_path("add.png") %>');
+    }
 
     .expand:active{background-color: grey}
     .edit{

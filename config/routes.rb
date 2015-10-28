@@ -6,10 +6,12 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   get 'tetris/first'                => 'tetris#simple_same'
   get 'organizer/global'            => 'organizer#global'
+  post 'organizer/task'             => 'organizer#got_task'
   post 'organizer/subject'          => 'organizer#got_subject'
   post 'organizer/subject_area'     => 'organizer#got_subject_area'
   post 'organizer/subject_area/new' => 'organizer#subject_area_new'
   post 'organizer/subject/new'      => 'organizer#subject_new'
+  post 'organizer/task/new'         => 'organizer#task_new'
   delete 'organizer/subject'        => 'organizer#subject_destroy'
   delete 'organizer/subject_area'   => 'organizer#subject_area_destroy'
   # Example of regular route:
