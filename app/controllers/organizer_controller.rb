@@ -31,7 +31,7 @@ class OrganizerController < ApplicationController
       name: params[:name], watch: '0:0:0:0', haveBeenWatching: 0})
     subject.save
     respond_to do |format|
-      format.json  {render json: {id: subject.id, state: subject.data}}
+      format.json  {render json: {id: subject.id, state: subject.data, tasks: []}}
     end
   end
 

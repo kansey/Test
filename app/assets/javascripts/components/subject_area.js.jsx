@@ -60,6 +60,8 @@ var SubjectArea = React.createClass({
       type: 'POST',
       data: {name: name, id: this.state.id},
       success: function(data) {
+        console.log(data);
+        console.log(this.state.subjects);
         this.setState({subjects: this.state.subjects.concat([data])});
       }.bind(this)
     });
@@ -102,6 +104,7 @@ var SubjectArea = React.createClass({
 
   render: function() {
     var _this = this;
+    console.log(this.state.subjects);
     var someStuff = this.state.subjects.map(function(item, index){
       return (
         <Subject hide = {((_this.state.expandChildIs === null) ||
