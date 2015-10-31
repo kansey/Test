@@ -1,11 +1,21 @@
 // Place all the styles related to the organizer controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Gruppo);
+@import url(https://fonts.googleapis.com/css?family=Cabin+Sketch:700);
+@import url(https://fonts.googleapis.com/css?family=Shadows+Into+Light);
+@import url(https://fonts.googleapis.com/css?family=Audiowide|Open+Sans+Condensed:300|Rajdhani|Unica+One);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans|Hind|Six+Caps|Wire+One);
+
 body{
   padding: 0;
   margin: 0;
   background-color: white;
   background-image: url('<%= asset_path("bg.png") %>');
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 button{position:absolute}
@@ -24,10 +34,6 @@ button{position:absolute}
   position: absolute;
   margin: 0;
   outline: 1px solid #e2e2e2;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 
   .rightSlider{
     cursor: ew-resize;
@@ -81,10 +87,9 @@ button{position:absolute}
   }
 
   .subject{
-    font-family: 'Arial';
     position: absolute;
-    background-color: white;
-
+    background-color: #666;
+    color: #d5d4d3;
     .addTask{
       float: right;
       width: 20px;
@@ -108,30 +113,46 @@ button{position:absolute}
     }
     .edit:active{background-color: grey}
     .start{
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
       background-image: url('<%= asset_path("start.png") %>');
-      background-size: 15px 15px;
+      background-size: 25px 25px;
       background-repeat: no-repeat;
       background-position: center;
-      margin-top: 25px;
       float: left;
     }
     h3{
       margin: 0;
       position: absolute;
-      font-family: 'Ubuntu Light';
-      padding: 0 7px;
-      border-radius: 0 0 5px 0;
+      font-family: 'Cabin Sketch', cursive;
+      padding: 0 9px;
+      color: black;
+      .titleDecor{
+        width: 26px;
+        right: -20px;
+        height: 22px;
+        background-color: white;
+        transform: skew(-30deg);
+        position: absolute;
+        float: left;
+      }
     }
+
     .watch{
-      margin-top: 27px;
-      width:100px;
-      height: 25px;
+      font-family: 'Hind', sans-serif;
+      font-size: 20px;
+      position: absolute;
+      bottom: 12px;
+      right: 5px;
+      //outline: 1px white solid;
     }
     .infoLine{
-      width: auto;
-      height: 15px;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      //outline: 1px white solid;
+      font-size: 10px;
+      font-family: 'sans-serif';
     }
     .task{
       outline: 1px black solid;

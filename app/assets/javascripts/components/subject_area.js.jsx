@@ -60,8 +60,6 @@ var SubjectArea = React.createClass({
       type: 'POST',
       data: {name: name, id: this.state.id},
       success: function(data) {
-        console.log(data);
-        console.log(this.state.subjects);
         this.setState({subjects: this.state.subjects.concat([data])});
       }.bind(this)
     });
@@ -104,7 +102,6 @@ var SubjectArea = React.createClass({
 
   render: function() {
     var _this = this;
-    console.log(this.state.subjects);
     var someStuff = this.state.subjects.map(function(item, index){
       return (
         <Subject hide = {((_this.state.expandChildIs === null) ||
@@ -159,7 +156,10 @@ var SubjectArea = React.createClass({
     return (
       <div className = 'subjectArea' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
-        <h1 onDoubleClick = {this.rename} >{this.state.name}</h1>
+        <h1 onDoubleClick = {this.rename} >
+          
+          {this.state.name}
+        </h1>
         {someStuff}
         <div className = 'delete' onClick = {this.delete}></div>
         <div className = 'addSubject' onClick = {this.addSubject}></div>

@@ -129,8 +129,7 @@ var Subject = React.createClass({
       m = m - h * 60;
       s = s - m * 60;
       _this.haveBeenWatching = dt;
-      _this.setState({watch: d+':'+h+':'+m+':'+s});
-      console.log(_this.timeOut);
+      _this.setState({watch: h+'h : '+m+'m : '+s+'s'});
     },500);
   },
 
@@ -188,6 +187,10 @@ var Subject = React.createClass({
       backgroundColor: 'rgb(' + this.state.color + ')'
     };
 
+    var watchStyle = {
+      //fontSize: this.state.width/7 + this.state.height/8 + 'px'
+    }
+
     var rightSliderStyle = {
       height: this.state.height,
       width: 3,
@@ -223,13 +226,18 @@ var Subject = React.createClass({
     return (
       <div className = 'subject' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
-        <h3 style = {titleStyle} onDoubleClick = {this.rename}>{this.state.name}</h3>
+        <h3 style = {titleStyle} onDoubleClick = {this.rename}>
+          <div className = 'titleDecor' style = {titleStyle}></div>
+          {this.state.name}
+        </h3>
         <div className = 'delete' onClick = {this.delete}></div>
         <div className = 'expand' style = {expandStyle} onClick = {(this.state.spread) ? this.turn : this.expand}></div>
         {(!this.state.spread) ? {edit} : null}
         {(this.state.spread) ? {addTask} : null}
         <div className = 'start' onClick = {this.state.watching ? this.stopWatching : this.watching}></div>
-        <div className = 'watch'>{this.state.watch}</div>
+        <div className = 'watch'>
+          {this.state.watch}
+        </div>
         <div className = 'tasksBox' style = {tasksBoxStyle}>
           {this.state.spread ? someStuff : null}
         </div>
