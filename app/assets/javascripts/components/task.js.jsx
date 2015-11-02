@@ -13,7 +13,6 @@ var Task = React.createClass({
   getDone: function(){
     this.setState({done: !this.state.done});
     this.sendToServer();
-
   },
 
   sendToServer: function(){

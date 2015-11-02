@@ -157,7 +157,7 @@ var SubjectArea = React.createClass({
       <div className = 'subjectArea' style = {style} onMouseDown = {this.state.relocatable ? this.handlePosition : ''}>
         <div className = 'rightSlider' style = {rightSliderStyle} onMouseDown = {this.handleWidth}></div>
         <h1 onDoubleClick = {this.rename} >
-          
+          <div className = 'titleDecor'></div>
           {this.state.name}
         </h1>
         {someStuff}

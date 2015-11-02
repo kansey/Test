@@ -56,12 +56,24 @@ button{position:absolute}
   }
 
   h1{
-    font-family: 'Ubuntu Medium';
+    font-family: 'Cabin Sketch', cursive;
+    padding: 0 9px;
     margin: 0;
     padding: 0 7px;
-    border-radius: 0 0 5px 0;
     position: absolute;
     background-color: #e2e2e2;
+    border-bottom: 1px white solid;
+    .titleDecor{
+      width: 26px;
+      right: -20px;
+      height: 23px;
+      background-color: inherit;
+      transform: skew(-30deg);
+      position: absolute;
+      float: left;
+      border-bottom: 1px white solid;
+      border-right: 1px white solid;
+    }
   }
 
   .delete{
@@ -90,6 +102,10 @@ button{position:absolute}
     position: absolute;
     background-color: #666;
     color: #d5d4d3;
+    .tasksBox{
+      font-family: 'Hind', sans-serif;
+      color: black;
+    }
     .addTask{
       float: right;
       width: 20px;
@@ -113,13 +129,11 @@ button{position:absolute}
     }
     .edit:active{background-color: grey}
     .start{
-      width: 25px;
-      height: 25px;
-      background-image: url('<%= asset_path("start.png") %>');
-      background-size: 25px 25px;
-      background-repeat: no-repeat;
-      background-position: center;
-      float: left;
+      width: 70px;
+      height: 28px;
+      position: absolute;
+      bottom: 7px;
+      left: 0;
     }
     h3{
       margin: 0;

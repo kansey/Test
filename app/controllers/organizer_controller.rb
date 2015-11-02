@@ -52,6 +52,7 @@ class OrganizerController < ApplicationController
       link: params[:link],
       value: params[:value]
     )
+    render nothing: true
   end
 
   def got_subject

@@ -20,6 +20,7 @@ var Subject = React.createClass({
       minWidth: 195,
       spread: false,
       watching: false,
+      trigger: "0.15430382",
       haveBeenWatching: this.props.data.state.haveBeenWatching
     }
   },
@@ -114,31 +115,38 @@ var Subject = React.createClass({
     this.props.hideAnother(null);
   },
 
-  watching: function(){
-    var benchmark = new Date();
-    var _this = this;
-    this.setState({watching: true});
-    this.timeOut = setInterval(function(){
-      date = new Date();
-      dt = date - benchmark + _this.state.haveBeenWatching;
-      s = Math.floor(dt / 1000);
-      m = Math.floor(s / 60);
-      h = Math.floor(m / 60);
-      d = Math.floor(h / 24);
-      h = h - d * 24;
-      m = m - h * 60;
-      s = s - m * 60;
-      _this.haveBeenWatching = dt;
-      _this.setState({watch: h+'h : '+m+'m : '+s+'s'});
-    },500);
+  tracker: function(){
+    date = new Date();
+    dt = date - this.benchmark + this.state.haveBeenWatching;
+    s = Math.floor(dt / 1000);
+    m = Math.floor(s / 60);
+    h = Math.floor(m / 60);
+    //d = Math.floor(h / 24);
+    //h = h - d * 24;
+    m = m - h * 60;
+    s = s - m * 60;
+    this.haveBeenWatching = dt;
+    if (h < 10) {hTitle = '0' + h + ' : '} else {hTitle = h + ' :'}
+    if (m < 10) {mTitle = '0' + m + 'm : '} else {mTitle = m + 'm :'};
+    if (s < 10) {sTitle = '0' + s + 's'} else {sTitle = s + 's'};
+    this.setState({watch: hTitle + mTitle + sTitle});
+  },
+
+  watching: function(event){
+    this.benchmark = new Date();
+    this.setState({watching: true, trigger: '70.0'});
+    this.timeOut = setInterval(this.tracker,1000);
   },
 
   stopWatching: function(){
-    this.setState({haveBeenWatching: this.haveBeenWatching});
-    this.setState({watching: false});
+
+    this.state.haveBeenWatching = this.haveBeenWatching;
+    this.setState({watching: false, trigger: '0.10'});
     clearInterval(this.timeOut);
     this.sendToServer();
   },
+
+
 
   render: function() {
 
@@ -156,6 +164,11 @@ var Subject = React.createClass({
       marginLeft: this.state.left,
       marginTop:  this.state.top
     };
+
+    var triggerStyle = {fillOpacity:1,stroke:'#000000',strokeWidth:0.88474831,strokeMiterlimit:4,
+                 strokeDasharray:'none',strokeOpacity:1}
+
+    if (!this.state.watching) {triggerStyle.fill = '#d5d4d3'} else {triggerStyle.fill = 'rgb(' + this.state.color + ')'}
 
     var tasksBoxStyle = {
       width: 'auto',
@@ -175,7 +188,9 @@ var Subject = React.createClass({
     }
 
     if (this.state.spread) {
-      tasksBoxStyle.height = this.state.height - 75;
+      tasksBoxStyle.height = this.state.height - 90;
+      tasksBoxStyle.marginTop = 35;
+      tasksBoxStyle.backgroundColor = '#ffffff';
       tasksBoxStyle.borderTop = '1px solid black';
       tasksBoxStyle.borderBottom = '1px solid black';
       tasksBoxStyle.overflow = 'hidden';
@@ -186,10 +201,6 @@ var Subject = React.createClass({
     var titleStyle = {
       backgroundColor: 'rgb(' + this.state.color + ')'
     };
-
-    var watchStyle = {
-      //fontSize: this.state.width/7 + this.state.height/8 + 'px'
-    }
 
     var rightSliderStyle = {
       height: this.state.height,
@@ -234,7 +245,29 @@ var Subject = React.createClass({
         <div className = 'expand' style = {expandStyle} onClick = {(this.state.spread) ? this.turn : this.expand}></div>
         {(!this.state.spread) ? {edit} : null}
         {(this.state.spread) ? {addTask} : null}
-        <div className = 'start' onClick = {this.state.watching ? this.stopWatching : this.watching}></div>
+        <div className = 'start'>
+
+          <svg onClick = {this.state.watching ? this.stopWatching : this.watching}
+            width="70" height="25" viewBox="0 0 122 52">
+            <g transform="translate(0,-1000.3622)">
+            <rect style={triggerStyle}
+                 width="119.81525"
+                 height="49.81525"
+                 x="0.092374153"
+                 y="1002.4546"
+                 ry="24.907625"/>
+              <rect
+                 style={{opacity:1,fill:'#ffffff',fillOpacity:1,stroke:'#000000',strokeWidth:0.80860764,strokeLinecap:'round',
+                         strokeLinejoin:'round',strokeMiterlimit:4,strokeDasharray:'none',strokeOpacity:1}}
+                 width="49.691391"
+                 height="49.691391"
+                 x={this.state.trigger}
+                 y="1002.5165"
+                 ry="24.845695"/>
+            </g>
+          </svg>
+
+        </div>
         <div className = 'watch'>
           {this.state.watch}
         </div>
